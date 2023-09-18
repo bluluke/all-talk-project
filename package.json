@@ -4,7 +4,8 @@
   "description": "Server for chat platform",
   "main": "listen.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon listen.js"
   },
   "author": "Luke Ford",
   "license": "MIT",
