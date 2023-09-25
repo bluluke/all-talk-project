@@ -28,7 +28,7 @@ describe('GET /api/chats', () => {
     .get("/api/chats/")
     .expect(200)
     .then(({ body }) => {
-        expect(body.length).toBe(2);
+        expect(body.length).toBe(9);
         body.forEach((document) => {
             expect(document).toHaveProperty('_id')
      expect(document).toHaveProperty('chatName')
