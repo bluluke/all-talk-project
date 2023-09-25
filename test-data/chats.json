@@ -22,5 +22,238 @@
         {"senderName":"Kerry Glad",
         "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never saved me."}],
     "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e830",
+        "chatName": "Favorite Movie Quotes",
+        "chatCreator": "Alice Cineman",
+        "messages": [
+            {
+                "senderName": "Bob Quotesmith",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "Here's looking at you, kid."
+            },
+            {
+                "senderName": "Eve Cinephile",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "May the Force be with you."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126250,
+                "i": 1
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e831",
+        "chatName": "Travel Bucket List",
+        "chatCreator": "David Voyager",
+        "messages": [
+            {
+                "senderName": "Grace Explorer",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "I want to visit Machu Picchu someday."
+            },
+            {
+                "senderName": "James Globetrotter",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "The Great Barrier Reef is on my list."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126251,
+                "i": 2
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e832",
+        "chatName": "Favorite Recipes",
+        "chatCreator": "Olivia Chef",
+        "messages": [
+            {
+                "senderName": "Lucas Foodie",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "I make a mean lasagna."
+            },
+            {
+                "senderName": "Sophia Cook",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "My chocolate cake is legendary."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126252,
+                "i": 3
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e833",
+        "chatName": "Book Club Picks",
+        "chatCreator": "Liam Litlover",
+        "messages": [
+            {
+                "senderName": "Zoe Reader",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "Just finished 'The Great Gatsby.'"
+            },
+            {
+                "senderName": "Noah Bibliophile",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "'To Kill a Mockingbird' is a classic."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126253,
+                "i": 4
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e834",
+        "chatName": "Tech Gadgets",
+        "chatCreator": "Mia Techie",
+        "messages": [
+            {
+                "senderName": "Mason Innovator",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "The latest iPhone is amazing!"
+            },
+            {
+                "senderName": "Ava Gadgeteer",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "I'm excited about VR headsets."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126254,
+                "i": 5
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e835",
+        "chatName": "Fitness Goals",
+        "chatCreator": "Noah Athlete",
+        "messages": [
+            {
+                "senderName": "Sophia Runner",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "Ran my first marathon!"
+            },
+            {
+                "senderName": "Isabella Gymrat",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "Weightlifting is my passion."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126255,
+                "i": 6
+            }
+        }
+    },
+    {
+        "_id": "650a7f8c1f1e6c8b49e9e836",
+        "chatName": "Movie Recommendations",
+        "chatCreator": "Liam Cinephile",
+        "messages": [
+            {
+                "senderName": "Olivia Critic",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "Check out 'Inception.' Mind-bending!"
+            },
+            {
+                "senderName": "Emma Film Buff",
+                "timeOfSending": {
+                    "$timestamp": {
+                        "t": 0,
+                        "i": 0
+                    }
+                },
+                "messageContent": "'Pulp Fiction' is a classic."
+            }
+        ],
+        "timeOfCreation": {
+            "$timestamp": {
+                "t": 1695126256,
+                "i": 7
+            }
+        }
     }
 ]
+
+
