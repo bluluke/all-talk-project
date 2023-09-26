@@ -58,3 +58,22 @@ describe('GET /api/chats', () => {
   })
 });
 
+describe('GET /api/chats?from_date=', () => { 
+  test('200: returns chat documents dated later than date indicated by parametric timestamp value', () => { 
+    return request(app)
+    .get("/api/chats?from_date=1695126250")
+    .expect(200)
+    .then(({ body }) => {
+        const fromDate = 1695126250;
+        let timeStampValueOverFromDate = true;
+        body.chats.forEach((chat) => {
+            if(chat.timeOfCreation.$timestamp.t < fromDate) {
+                timeStampValueOverFromDate = false
+            }
+        })
+        expect(timeStampValueOverFromDate).toBe(true)
+        expect(body.chats.length).toBe(7);    
+    })
+  }); 
+});
+
