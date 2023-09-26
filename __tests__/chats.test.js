@@ -28,7 +28,6 @@ describe('GET /api/chats', () => {
     .get("/api/chats/")
     .expect(200)
     .then(({ body }) => {
-        console.log('body.chats: ', body.chats);
         expect(body.chats.length).toBe(9);
         body.chats.forEach((document) => {
             expect(document).toHaveProperty('_id')
