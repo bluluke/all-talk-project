@@ -23,7 +23,7 @@ afterAll(async () => {
 })
 
 describe('GET /api/chats', () => { 
-  test('Should return all documents from chat-list collection', () => { 
+  test('200: Should return all documents from chat-list collection', () => { 
     return request(app)
     .get("/api/chats/")
     .expect(200)
@@ -38,7 +38,7 @@ describe('GET /api/chats', () => {
         })
     })
   });
-  test('Should return chats in reverse chronological order', () => {
+  test('200: Should return chats in reverse chronological order as default', () => {
     return request(app)
     .get("/api/chats")
     .expect(200)
