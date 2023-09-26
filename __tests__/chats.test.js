@@ -83,5 +83,14 @@ describe('GET /api/chats?from_date=', () => {
         expect(body.chats).toEqual([]);
     })
   })
+  test('400: returns error message if non numeric value passed as from_date', () => {
+    return request(app)
+    .get("/api/chats?from_date=abcde")
+    .expect(400)
+    .then(({ body }) => {
+        expect(body.msg).toBe('Bad Request');
+    })
+  })
+
 });
 
