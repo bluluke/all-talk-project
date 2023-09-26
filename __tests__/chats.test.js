@@ -28,6 +28,7 @@ describe('GET /api/chats', () => {
     .get("/api/chats/")
     .expect(200)
     .then(({ body }) => {
+        console.log('body.chats: ', body.chats);
         expect(body.chats.length).toBe(9);
         body.chats.forEach((document) => {
             expect(document).toHaveProperty('_id')
@@ -74,6 +75,14 @@ describe('GET /api/chats?from_date=', () => {
         expect(timeStampValueOverFromDate).toBe(true)
         expect(body.chats.length).toBe(7);    
     })
-  }); 
+  });
+  test('200: returns empty array when no chat documents dated later than date indicated by parametric timestamp value', () => {
+    return request(app)
+    .get("/api/chats?from_date=1695276255")
+    .expect(200)
+    .then(({ body}) => {
+        expect(body.chats).toEqual([]);
+    })
+  })
 });
 
