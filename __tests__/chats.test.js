@@ -28,8 +28,8 @@ describe('GET /api/chats', () => {
     .get("/api/chats/")
     .expect(200)
     .then(({ body }) => {
-        expect(body.length).toBe(9);
-        body.forEach((document) => {
+        expect(body.chats.length).toBe(9);
+        body.chats.forEach((document) => {
             expect(document).toHaveProperty('_id')
      expect(document).toHaveProperty('chatName')
      expect(document).toHaveProperty('chatCreator')
@@ -37,6 +37,24 @@ describe('GET /api/chats', () => {
      expect(document).toHaveProperty('timeOfCreation')
         })
     })
-
-  }); 
+  });
+  test('Should return chats in reverse chronological order', () => {
+    return request(app)
+    .get("/api/chats")
+    .expect(200)
+    .then(({ body }) => {
+        let isReverseChronological = true;
+        let previousTime = body.chats[0].timeOfCreation.$timestamp.t;
+        body.chats.forEach((chat) => {
+            const currentTime= chat.timeOfCreation.$timestamp.t;
+            if(currentTime > previousTime) {
+                isReverseChronological = false
+            } else {
+                previousTime = currentTime;
+            }
+        })
+        expect(isReverseChronological).toBe(true);
+    })
+  })
 });
+
