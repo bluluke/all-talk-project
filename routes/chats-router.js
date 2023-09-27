@@ -1,5 +1,5 @@
 const chatsRouter = require("express").Router();
-const {getChats} = require('../controllers/chats-controller')
-chatsRouter.route("/").get(getChats);
+const {getChats, postChat} = require('../controllers/chats-controller')
+chatsRouter.route("/").get(getChats).post(postChat);
 
 module.exports = chatsRouter;
