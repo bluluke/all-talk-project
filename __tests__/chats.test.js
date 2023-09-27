@@ -155,6 +155,7 @@ describe('POST /api/chats', () => {
       return request(app)
       .post('/api/chats')
       .send({chatName: 'Christmas', chatCreator: 'Nick Claus' })
+      .expect(201)
       .then(({ body }) => {
           expect(body.result.acknowledged).toBe(true)
           expect(body.result).toHaveProperty("insertedId")
