@@ -127,3 +127,24 @@ describe('GET /api/chats?to_date=', () => {
         })
       })
 });
+
+
+describe('GET /api/chats?from_date= &&to_date=', () => { 
+  test('returns chat documents dated within tiime frame indicated by parametric timestamp values', () => { 
+    return request(app)
+    .get('/api/chats?from_date=1&&to_date=1695126852')
+    .expect(200)
+    .then(({ body }) => {
+        let withinTimeFrame = true;
+        const fromDate = 1;
+        const toDate = 1695126853;
+        body.chats.forEach((chat) => {
+            if(chat.timeOfCreation.$timestamp.t < fromDate || chat.timeOfCreation.$timestamp.t > toDate) {
+                withinTimeFrame = false;
+            }
+        })
+        expect(withinTimeFrame).toBe(true);
+        expect(body.chats.length).toBe(6);
+    })
+  }); 
+});
