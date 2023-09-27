@@ -110,4 +110,12 @@ describe('GET /api/chats?to_date=', () => {
             expect(timeStampValueBelowToDate).toBe(true);
         })
       })
+      test('200: returns empty array when no chat documents dated earlier than or the same as the date indicated by parametric timestamp value', () => {
+        return request(app)
+        .get("/api/chats?to_date=-1")
+        .expect(200)
+        .then(({ body}) => {
+            expect(body.chats).toEqual([]);
+        })
+      })
 });
