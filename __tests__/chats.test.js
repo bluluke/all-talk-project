@@ -1,8 +1,9 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require("mongoose")
 const {app} = require("../app");
 const request = require('supertest'); 
 const seedDatabase = require("../test-data/run-seed");
-const { closeDatabase } = require('../connection');  
+const { closeDatabase, connectToDatabase } = require('../connection');  
 
 let mongod;
 
@@ -159,4 +160,22 @@ describe('POST /api/chats', () => {
           expect(body.result).toHaveProperty("insertedId")
       })
     }); 
+    test('Adds document to database', async () => {
+        await request(app)
+        .post('/api/chats')
+        .send({chatName: 'Exceptionalism', chatCreator: 'Rishi' })
+        .expect(201)
+        try {
+            await connectToDatabase();
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list');
+            const chatListData = await chatListCollection.find({}).toArray(); 
+            expect(chatListData.length).toBe(10);
+            expect(chatListData[9].chatName).toBe('Exceptionalism')
+            expect(chatListData[9].chatCreator).toBe('Rishi')
+        } catch (err) {
+            console.log(err);
+        }
+    })
   });
