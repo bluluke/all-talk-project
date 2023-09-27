@@ -91,6 +91,23 @@ describe('GET /api/chats?from_date=', () => {
         expect(body.msg).toBe('Bad Request');
     })
   })
-
 });
 
+describe('GET /api/chats?to_date=', () => { 
+    test('200: returns chat documents dated earlier and the same as the date indicated by parametric timestamp value ', () => {
+        return request(app)
+        .get('/api/chats?to_date=1695126852')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.chats.length).toBe(7);
+            const toDate = 1695126852;
+            let timeStampValueBelowToDate = true; 
+            body.chats.forEach((chat) => {
+                if(chat.timeOfCreation.$timestamp.t > toDate) {
+                    timeStampValueBelowToDate = false
+                }
+            })
+            expect(timeStampValueBelowToDate).toBe(true);
+        })
+      })
+});
