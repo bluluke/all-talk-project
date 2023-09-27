@@ -6,7 +6,7 @@ exports.getChats = (req, res, next) => {
     const toDate = req.query.to_date;
     const toDateNumber = Number(toDate);
 
-    if(isNaN(fromDateNumber) && from_date) {
+    if(isNaN(fromDateNumber) && from_date || isNaN(toDateNumber) && toDate) {
        return next({ status: 400, msg: "Bad Request"});
     }
     readChats(fromDateNumber, toDateNumber)
