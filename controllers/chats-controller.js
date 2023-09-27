@@ -1,4 +1,4 @@
-const {readChats} = require('../models/chats-model')
+const {readChats, addChat} = require('../models/chats-model')
 
 exports.getChats = (req, res, next) => {
     const fromDate = req.query.from_date;
@@ -16,3 +16,10 @@ exports.getChats = (req, res, next) => {
 }
 
 
+exports.postChat = (req, res, next) => {
+    const {chatName, chatCreator} = req.body;
+    addChat(chatName, chatCreator)
+    .then((data) => {
+        res.status(201).send({ result: data }) 
+    })
+}

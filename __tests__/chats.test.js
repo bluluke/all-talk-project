@@ -148,3 +148,15 @@ describe('GET /api/chats?from_date= &&to_date=', () => {
     })
   }); 
 });
+
+describe('POST /api/chats', () => { 
+    test('acknowledges the post request', () => { 
+      return request(app)
+      .post('/api/chats')
+      .send({chatName: 'Christmas', chatCreator: 'Nick Claus' })
+      .then(({ body }) => {
+          expect(body.result.acknowledged).toBe(true)
+          expect(body.result).toHaveProperty("insertedId")
+      })
+    }); 
+  });
