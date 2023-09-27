@@ -59,7 +59,7 @@ describe('GET /api/chats', () => {
 });
 
 describe('GET /api/chats?from_date=', () => { 
-  test('200: returns chat documents dated later than date indicated by parametric timestamp value', () => { 
+  test('200: returns chat documents dated later than or the same as the date indicated by parametric timestamp value', () => { 
     return request(app)
     .get("/api/chats?from_date=1695126250")
     .expect(200)
@@ -75,7 +75,7 @@ describe('GET /api/chats?from_date=', () => {
         expect(body.chats.length).toBe(7);    
     })
   });
-  test('200: returns empty array when no chat documents dated later than date indicated by parametric timestamp value', () => {
+  test('200: returns empty array when no chat documents dated later than or the same as the date indicated by parametric timestamp value', () => {
     return request(app)
     .get("/api/chats?from_date=1695276255")
     .expect(200)
