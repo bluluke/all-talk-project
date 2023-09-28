@@ -306,10 +306,10 @@ describe('POST /api/chats', () => {
             expect(body.msg).toBe('Bad Request')
         })
     })
-    test('400: Returns error message when necessary request body property malformed', () => {
+    test('400: Returns error message when senderName value does not have a least 1 non whitespace character', () => {
         return request(app)
         .post('/api/chats/650a7f8c1f1e6c8b49e9e832/messages')
-        .send({senderN: 'Frank Bone', messageContent: 'This message will not reach the chat document.'})
+        .send({senderName: '     ', messageContent: 'This message will not reach the chat document.'})
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
