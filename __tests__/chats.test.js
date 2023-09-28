@@ -297,4 +297,13 @@ describe('POST /api/chats', () => {
             expect(body.msg).toBe('Bad Request')
         })
     })
+    test('400: Returns error message when id does not have length of 24', () => {
+        return request(app)
+        .post('/api/chats/6509914e64a1827eedbf/messages')
+        .send({senderName: 'David Jones', messageContent: 'This message will not reach the chat document.'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
   });
