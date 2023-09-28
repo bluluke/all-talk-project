@@ -207,4 +207,13 @@ describe('POST /api/chats', () => {
             console.error(err)    
         }
     })
+    test('400: Responds with error message when property names are malformed', () => {
+        return request(app)
+        .post('/api/chats')
+        .send( { chanam: 'This is a malformed property', chatCreator: 'Mal'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request');
+        })
+    })
   });

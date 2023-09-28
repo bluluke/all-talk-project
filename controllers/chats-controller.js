@@ -18,6 +18,9 @@ exports.getChats = (req, res, next) => {
 
 exports.postChat = (req, res, next) => {
     const {chatName, chatCreator} = req.body;
+    if(!chatName || !chatCreator) {
+        return next({ status: 400, msg: "Bad Request"})
+    }
     addChat(chatName, chatCreator)
     .then((data) => {
         res.status(201).send({ result: data }) 
