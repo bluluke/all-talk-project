@@ -1,6 +1,6 @@
 const { connectToDatabase } = require('../connection');
 const mongoose = require('mongoose');
-const { ObjectId, Timestamp } = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 exports.readChats = async (fromDate, toDate) => {
     try {
