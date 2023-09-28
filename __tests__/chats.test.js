@@ -254,4 +254,74 @@ describe('POST /api/chats', () => {
         } catch (err) {
         }
     })
+    test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
+        return request(app)
+        .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
+        .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed'})
+        .expect(201)
+        .then(({body }) => {
+           expect(body.result.acknowledged).toBe(true)
+           expect(body.result.modifiedCount).toBe(1)
+           expect(body.result.matchedCount).toBe(1)
+        })
+       }); 
+       test('201: Adds message to chat document when post request body has unnecessary property', async () => {
+        await request(app)
+        .post('/api/chats/6509914e64a1827eedbf6f63/messages')
+        .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', unnecessary: 'This property is unnecessary'})
+        .expect(201)
+        try {
+            await connectToDatabase();
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatlistCollection = await database.collection('chat-list')
+
+            const chatWithSpecificMessage = await chatlistCollection.aggregate([
+                { $match: { _id: '6509914e64a1827eedbf6f63'}},
+                { $project: 
+                    { messages: { $arrayElemAt: ['$messages', 3]}}
+                }
+            ]).toArray();
+            expect(chatWithSpecificMessage.length).toBe(1);
+            expect(chatWithSpecificMessage.senderName).toBe('Dracula')
+            expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
+        } catch (err) {
+        }
+    })
+    test('400: Returns error message when id has non alphanumeric characters', () => {
+        return request(app)
+        .post('/api/chats/6509914e64a1827eedbf@@@@@/messages')
+        .send({senderName: 'Kevin Smith', messageContent: 'This message will not reach the chat document.'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when id does not have length of 24', () => {
+        return request(app)
+        .post('/api/chats/6509914e64a1827eedbf/messages')
+        .send({senderName: 'David Jones', messageContent: 'This message will not reach the chat document.'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when senderName value does not have a least 1 non whitespace character', () => {
+        return request(app)
+        .post('/api/chats/650a7f8c1f1e6c8b49e9e832/messages')
+        .send({senderName: '     ', messageContent: 'This message will not reach the chat document.'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when messageContent value does not have a least 1 non whitespace character', () => {
+        return request(app)
+        .post('/api/chats/650a7f8c1f1e6c8b49e9e832/messages')
+        .send({senderName: 'Alan McCarthy', messageContent: '     '})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
   });
