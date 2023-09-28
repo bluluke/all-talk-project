@@ -3,25 +3,45 @@
     "chatName":"Have you ever seen a blonde priest? ",
     "chatCreator":"Terry Plimsoll",
     "messages":[
-        {"senderName":"Keired Stamp",
-        "timeOfSending":{"$timestamp":{"t":0,"i":0}},
-        "messageContent":"I have never."},
-        {"senderName":"Phillip Star",
-        "timeOfSending":{"$timestamp":{"t":0,"i":0}},
-        "messageContent":"I was blonde as a child. "}],
-    "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
+        {   
+            "_id": "65086dc0de189d61e4f9c1c5",
+            "senderName":"Keired Stamp",
+            "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+            "messageContent":"I have never."
+        },
+        {   
+            "_id": "65086dc0de189d61e4f9c1c6",    
+            "senderName":"Phillip Star",
+            "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+            "messageContent":"I was blonde as a child. "
+        }
+    ],
+        "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
     },
     {"_id":"6509914e64a1827eedbf6f63",
     "chatName":"Daylight Savings",
     "chatCreator":"Derek Bounce",
     "messages":[
-        {"senderName":"Harry Fella",
-        "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"Everyone should be able to make their own decision on this subject."},
-        {"senderName":"Sarah Gently",
-        "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never hurt anyone."},
-        {"senderName":"Kerry Glad",
-        "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never saved me."}],
-    "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
+        {
+            "_id": "65086dc0de189d61e4f9c1c7",
+            "senderName":"Harry Fella",
+            "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+            "messageContent":"Everyone should be able to make their own decision on this subject."
+        },
+        {
+            "_id": "65086dc0de189d61e4f9c1c8",
+            "senderName":"Sarah Gently",
+            "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+            "messageContent":"It never hurt anyone."
+        },
+        {
+            "_id": "65086dc0de189d61e4f9c1c9",
+            "senderName":"Kerry Glad",
+            "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+            "messageContent":"It never saved me."
+            }
+        ],
+            "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
     },
     {
         "_id": "650a7f8c1f1e6c8b49e9e830",
@@ -29,6 +49,7 @@
         "chatCreator": "Alice Cineman",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1ca", 
                 "senderName": "Bob Quotesmith",
                 "timeOfSending": {
                     "$timestamp": {
@@ -39,6 +60,7 @@
                 "messageContent": "Here's looking at you, kid."
             },
             {
+                "_id": "65086dc0de189d61e4f9c1cb", 
                 "senderName": "Eve Cinephile",
                 "timeOfSending": {
                     "$timestamp": {
@@ -62,6 +84,7 @@
         "chatCreator": "David Voyager",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1cc", 
                 "senderName": "Grace Explorer",
                 "timeOfSending": {
                     "$timestamp": {
@@ -72,6 +95,7 @@
                 "messageContent": "I want to visit Machu Picchu someday."
             },
             {
+                "_id": "65086dc0de189d61e4f9c1cd", 
                 "senderName": "James Globetrotter",
                 "timeOfSending": {
                     "$timestamp": {
@@ -95,6 +119,7 @@
         "chatCreator": "Olivia Chef",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1ce", 
                 "senderName": "Lucas Foodie",
                 "timeOfSending": {
                     "$timestamp": {
@@ -105,6 +130,7 @@
                 "messageContent": "I make a mean lasagna."
             },
             {
+                "_id": "65086dc0de189d61e4f9c1cf", 
                 "senderName": "Sophia Cook",
                 "timeOfSending": {
                     "$timestamp": {
@@ -128,6 +154,7 @@
         "chatCreator": "Liam Litlover",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1d0",
                 "senderName": "Zoe Reader",
                 "timeOfSending": {
                     "$timestamp": {
@@ -138,6 +165,7 @@
                 "messageContent": "Just finished 'The Great Gatsby.'"
             },
             {
+                "_id": "65086dc0de189d61e4f9c1d1", 
                 "senderName": "Noah Bibliophile",
                 "timeOfSending": {
                     "$timestamp": {
@@ -161,6 +189,7 @@
         "chatCreator": "Mia Techie",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1d2", 
                 "senderName": "Mason Innovator",
                 "timeOfSending": {
                     "$timestamp": {
@@ -171,6 +200,7 @@
                 "messageContent": "The latest iPhone is amazing!"
             },
             {
+                "_id": "65086dc0de189d61e4f9c1d3", 
                 "senderName": "Ava Gadgeteer",
                 "timeOfSending": {
                     "$timestamp": {
@@ -194,6 +224,7 @@
         "chatCreator": "Noah Athlete",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1d4",
                 "senderName": "Sophia Runner",
                 "timeOfSending": {
                     "$timestamp": {
@@ -204,6 +235,7 @@
                 "messageContent": "Ran my first marathon!"
             },
             {
+                "_id": "65086dc0de189d61e4f9c1d5",
                 "senderName": "Isabella Gymrat",
                 "timeOfSending": {
                     "$timestamp": {
@@ -227,6 +259,7 @@
         "chatCreator": "Liam Cinephile",
         "messages": [
             {
+                "_id": "65086dc0de189d61e4f9c1d6",
                 "senderName": "Olivia Critic",
                 "timeOfSending": {
                     "$timestamp": {
@@ -237,6 +270,7 @@
                 "messageContent": "Check out 'Inception.' Mind-bending!"
             },
             {
+                "_id": "65086dc0de189d61e4f9c1d7",
                 "senderName": "Emma Film Buff",
                 "timeOfSending": {
                     "$timestamp": {
