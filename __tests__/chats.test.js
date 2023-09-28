@@ -254,4 +254,15 @@ describe('POST /api/chats', () => {
         } catch (err) {
         }
     })
+    test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
+        return request(app)
+        .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
+        .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed'})
+        .expect(201)
+        .then(({body }) => {
+           expect(body.result.acknowledged).toBe(true)
+           expect(body.result.modifiedCount).toBe(1)
+           expect(body.result.matchedCount).toBe(1)
+        })
+       }); 
   });
