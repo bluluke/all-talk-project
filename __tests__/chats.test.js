@@ -265,4 +265,27 @@ describe('POST /api/chats', () => {
            expect(body.result.matchedCount).toBe(1)
         })
        }); 
+       test('201: Adds message to chat document when post request body has unnecessary property', async () => {
+        await request(app)
+        .post('/api/chats/6509914e64a1827eedbf6f63/messages')
+        .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', unnecessary: 'This property is unnecessary'})
+        .expect(201)
+        try {
+            await connectToDatabase();
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatlistCollection = await database.collection('chat-list')
+
+            const chatWithSpecificMessage = await chatlistCollection.aggregate([
+                { $match: { _id: '6509914e64a1827eedbf6f63'}},
+                { $project: 
+                    { messages: { $arrayElemAt: ['$messages', 3]}}
+                }
+            ]).toArray();
+            expect(chatWithSpecificMessage.length).toBe(1);
+            expect(chatWithSpecificMessage.senderName).toBe('Dracula')
+            expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
+        } catch (err) {
+        }
+    })
   });
