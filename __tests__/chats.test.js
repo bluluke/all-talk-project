@@ -217,3 +217,18 @@ describe('POST /api/chats', () => {
         })
     })
   });
+
+
+  describe('POST /api/chats/:chatid/messages', () => { 
+    test('201: Acknowledges successful post request ', () => { 
+     return request(app)
+     .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
+     .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.'})
+     .expect(201)
+     .then(({body }) => {
+        expect(body.result.acknowledged).toBe(true)
+        expect(body.result.modifiedCount).toBe(1)
+        expect(body.result.matchedCount).toBe(1)
+     })
+    }); 
+  });
