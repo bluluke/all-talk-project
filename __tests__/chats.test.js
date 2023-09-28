@@ -288,4 +288,13 @@ describe('POST /api/chats', () => {
         } catch (err) {
         }
     })
+    test('400: Returns error message when id has non alphanumeric characters', () => {
+        return request(app)
+        .post('/api/chats/6509914e64a1827eedbf@@@@@/messages')
+        .send({senderName: 'Kevin Smith', messageContent: 'This message will not reach the chat document.'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
   });
