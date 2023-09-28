@@ -60,7 +60,7 @@ describe('GET /api/chats', () => {
 });
 
 describe('GET /api/chats?from_date=', () => { 
-  test('200: returns chat documents dated later than or the same as the date indicated by parametric timestamp value', () => { 
+  test('200: Returns chat documents dated later than or the same as the date indicated by parametric timestamp value', () => { 
     return request(app)
     .get("/api/chats?from_date=1695126250")
     .expect(200)
@@ -76,7 +76,7 @@ describe('GET /api/chats?from_date=', () => {
         expect(body.chats.length).toBe(7);    
     })
   });
-  test('200: returns empty array when no chat documents dated later than or the same as the date indicated by parametric timestamp value', () => {
+  test('200: Returns empty array when no chat documents dated later than or the same as the date indicated by parametric timestamp value', () => {
     return request(app)
     .get("/api/chats?from_date=1695276255")
     .expect(200)
@@ -84,7 +84,7 @@ describe('GET /api/chats?from_date=', () => {
         expect(body.chats).toEqual([]);
     })
   })
-  test('400: returns error message if non numeric value passed as from_date', () => {
+  test('400: Returns error message if non numeric value passed as from_date', () => {
     return request(app)
     .get("/api/chats?from_date=abcde")
     .expect(400)
@@ -95,7 +95,7 @@ describe('GET /api/chats?from_date=', () => {
 });
 
 describe('GET /api/chats?to_date=', () => { 
-    test('200: returns chat documents dated earlier and the same as the date indicated by parametric timestamp value ', () => {
+    test('200: Returns chat documents dated earlier and the same as the date indicated by parametric timestamp value ', () => {
         return request(app)
         .get('/api/chats?to_date=1695126852')
         .expect(200)
@@ -111,7 +111,7 @@ describe('GET /api/chats?to_date=', () => {
             expect(timeStampValueBelowToDate).toBe(true);
         })
       })
-      test('200: returns empty array when no chat documents dated earlier than or the same as the date indicated by parametric timestamp value', () => {
+      test('200: Returns empty array when no chat documents dated earlier than or the same as the date indicated by parametric timestamp value', () => {
         return request(app)
         .get("/api/chats?to_date=-1")
         .expect(200)
@@ -119,7 +119,7 @@ describe('GET /api/chats?to_date=', () => {
             expect(body.chats).toEqual([]);
         })
       })
-      test('400: returns error message if non numeric value passed as to_date', () => {
+      test('400: Returns error message if non numeric value passed as to_date', () => {
         return request(app)
         .get("/api/chats?to_date=abcde")
         .expect(400)
@@ -131,7 +131,7 @@ describe('GET /api/chats?to_date=', () => {
 
 
 describe('GET /api/chats?from_date= &&to_date=', () => { 
-  test('returns chat documents dated within tiime frame indicated by parametric timestamp values', () => { 
+  test('200: Returns chat documents dated within tiime frame indicated by parametric timestamp values', () => { 
     return request(app)
     .get('/api/chats?from_date=1&&to_date=1695126852')
     .expect(200)
@@ -151,7 +151,7 @@ describe('GET /api/chats?from_date= &&to_date=', () => {
 });
 
 describe('POST /api/chats', () => { 
-    test('acknowledges the post request', () => { 
+    test('201: Acknowledges the post request', () => { 
       return request(app)
       .post('/api/chats')
       .send({chatName: 'Christmas', chatCreator: 'Nick Claus' })
@@ -161,10 +161,10 @@ describe('POST /api/chats', () => {
           expect(body.result).toHaveProperty("insertedId")
       })
     }); 
-    test('Adds document to database', async () => {
+    test('201: Adds document to database', async () => {
         await request(app)
         .post('/api/chats')
-        .send({chatName: 'Exceptionalism', chatCreator: 'Rishi' })
+        .send({chatName: 'Exceptionalism', chatCreator: 'Rishi', notNeed: 'notneeded' })
         .expect(201)
         try {
             await connectToDatabase();
@@ -173,10 +173,47 @@ describe('POST /api/chats', () => {
             const chatListCollection = await database.collection('chat-list');
             const chatListData = await chatListCollection.find({}).toArray(); 
             expect(chatListData.length).toBe(10);
-            expect(chatListData[9].chatName).toBe('Exceptionalism')
-            expect(chatListData[9].chatCreator).toBe('Rishi')
+            expect(chatListData[-1].chatName).toBe('Exceptionalism')
+            expect(chatListData[-1].chatCreator).toBe('Rishi')
         } catch (err) {
-            console.log(err);
+            console.error(err)    
         }
+    })
+    test('201: Acknowledges the post request of document with unnecessary properties', () => { 
+        return request(app)
+        .post('/api/chats')
+        .send({chatName: 'Easter', chatCreator: 'Bugs', unnecessary: 'This property is not needed' })
+        .expect(201)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result).toHaveProperty("insertedId")
+        })
+      }); 
+    test('201: Adds document with unnecessary properties to database', async () => {
+        await request(app)
+        .post('/api/chats')
+        .send({chatName: 'Nepotism', chatCreator: 'Boris', unnecessary: 'This property is not needed' })
+        .expect(201)
+        try {
+            await connectToDatabase();
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list');
+            const chatListData = await chatListCollection.find({}).toArray(); 
+            expect(chatListData.length).toBe(10);
+            expect(chatListData[-1].chatName).toBe('Nepotism')
+            expect(chatListData[-1].chatCreator).toBe('Boris')
+        } catch (err) {
+            console.error(err)    
+        }
+    })
+    test('400: Responds with error message when property names are malformed', () => {
+        return request(app)
+        .post('/api/chats')
+        .send( { chanam: 'This is a malformed property', chatCreator: 'Mal'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request');
+        })
     })
   });
