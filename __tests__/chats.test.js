@@ -179,6 +179,16 @@ describe('POST /api/chats', () => {
             console.error(err)    
         }
     })
+    test('201: Acknowledges the post request of document with unnecessary properties', () => { 
+        return request(app)
+        .post('/api/chats')
+        .send({chatName: 'Easter', chatCreator: 'Bugs', unnecessary: 'This property is not needed' })
+        .expect(201)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result).toHaveProperty("insertedId")
+        })
+      }); 
     test('201: Adds document with unnecessary properties to database', async () => {
         await request(app)
         .post('/api/chats')
