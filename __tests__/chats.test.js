@@ -164,7 +164,7 @@ describe('POST /api/chats', () => {
     test('201: Adds document to database', async () => {
         await request(app)
         .post('/api/chats')
-        .send({chatName: 'Exceptionalism', chatCreator: 'Rishi' })
+        .send({chatName: 'Exceptionalism', chatCreator: 'Rishi', notNeed: 'notneeded' })
         .expect(201)
         try {
             await connectToDatabase();
@@ -173,10 +173,28 @@ describe('POST /api/chats', () => {
             const chatListCollection = await database.collection('chat-list');
             const chatListData = await chatListCollection.find({}).toArray(); 
             expect(chatListData.length).toBe(10);
-            expect(chatListData[9].chatName).toBe('Exceptionalism')
-            expect(chatListData[9].chatCreator).toBe('Rishi')
+            expect(chatListData[-1].chatName).toBe('Exceptionalism')
+            expect(chatListData[-1].chatCreator).toBe('Rishi')
         } catch (err) {
-            console.log(err);
+            console.error(err)    
+        }
+    })
+    test('201: Adds document with unnecessary properties to database', async () => {
+        await request(app)
+        .post('/api/chats')
+        .send({chatName: 'Nepotism', chatCreator: 'Boris', unnecessary: 'This property is not needed' })
+        .expect(201)
+        try {
+            await connectToDatabase();
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list');
+            const chatListData = await chatListCollection.find({}).toArray(); 
+            expect(chatListData.length).toBe(10);
+            expect(chatListData[-1].chatName).toBe('Nepotism')
+            expect(chatListData[-1].chatCreator).toBe('Boris')
+        } catch (err) {
+            console.error(err)    
         }
     })
   });
