@@ -1,4 +1,5 @@
 const { connectToDatabase } = require('../connection')
+const { ObjectId } = require("mongodb");
 const mongoose = require('mongoose');
 
 
@@ -6,6 +7,7 @@ exports.addMessage = async (senderName, messageContent, chatId) => {
 
     const currentTimestamp = Date.now(); 
     const newMessage = {
+        _id: new ObjectId(),
         senderName,
         timeOfSending: {"$timestamp":{"t": currentTimestamp,"i":0}},
         messageContent
