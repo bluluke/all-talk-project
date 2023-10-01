@@ -1,17 +1,18 @@
 const { connectToDatabase } = require('../connection')
 const { ObjectId } = require("mongodb");
 const mongoose = require('mongoose');
+const NewMessage = require('../schema/new-message-schema.js')
 
+const NewMessageModel = NewMessage;
 
 exports.addMessage = async (senderName, messageContent, chatId) => {
 
     const currentTimestamp = Date.now(); 
-    const newMessage = {
-        _id: new ObjectId(),
+    const newMessage = new NewMessageModel({
         senderName,
-        timeOfSending: {"$timestamp":{"t": currentTimestamp,"i":0}},
-        messageContent
-    }
+        timeOfSending:  {"$timestamp":{"t": currentTimestamp,"i":0}},
+        messageContent,
+    });
 
     try {
         await connectToDatabase()
@@ -25,6 +26,16 @@ exports.addMessage = async (senderName, messageContent, chatId) => {
       );
       return result;
     } catch(err) {
-
+        console.error('Error:', err);
     }
 }
+
+
+
+
+
+
+
+
+
+
