@@ -3,32 +3,34 @@
         "description": "Serves all documents from chat-list collection",
         "queries": [],
         "format": {},
-        "exampleResponse": [
-            {"_id":"65086dc0de189d61e4f9c1c5",
-            "chatName":"Have you ever seen a blonde priest? ",
-            "chatCreator":"Terry Plimsoll",
-            "messages":[
-                {"senderName":"Keired Stamp",
-                "timeOfSending":{"$timestamp":{"t":0,"i":0}},
-                "messageContent":"I have never."},
-                {"senderName":"Phillip Star",
-                "timeOfSending":{"$timestamp":{"t":0,"i":0}},
-                "messageContent":"I was blonde as a child. "}],
-            "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
-            },
-            {"_id":"6509914e64a1827eedbf6f63",
-            "chatName":"Daylight Savings",
-            "chatCreator":"Derek Bounce",
-            "messages":[
-                {"senderName":"Harry Fella",
-                "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"Everyone should be able to make their own decision on this subject."},
-                {"senderName":"Sarah Gently",
-                "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never hurt anyone."},
-                {"senderName":"Kerry Glad",
-                "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never saved me."}],
-            "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
-            }
-        ]
+        "exampleResponse": {
+            "chats": [
+                {"_id":"65086dc0de189d61e4f9c1c5",
+                "chatName":"Have you ever seen a blonde priest? ",
+                "chatCreator":"Terry Plimsoll",
+                "messages":[
+                    {"senderName":"Keired Stamp",
+                    "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+                    "messageContent":"I have never."},
+                    {"senderName":"Phillip Star",
+                    "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+                    "messageContent":"I was blonde as a child. "}],
+                "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
+                },
+                {"_id":"6509914e64a1827eedbf6f63",
+                "chatName":"Daylight Savings",
+                "chatCreator":"Derek Bounce",
+                "messages":[
+                    {"senderName":"Harry Fella",
+                    "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"Everyone should be able to make their own decision on this subject."},
+                    {"senderName":"Sarah Gently",
+                    "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never hurt anyone."},
+                    {"senderName":"Kerry Glad",
+                    "timeOfSending":{"$timestamp":{"t":0,"i":0}},"messageContent":"It never saved me."}],
+                "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
+                }
+            ]
+        }
     },
     "POST /api/chats": {
         "description": "adds a new chat document",
