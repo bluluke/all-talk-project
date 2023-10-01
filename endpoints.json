@@ -29,5 +29,12 @@
             "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
             }
         ]
+    },
+    "POST /api/chats": {
+        "description": "adds a new chat document",
+        "queries": [],
+        "format": {"chatName": "Christmas", "chatCreator": "Nick Claus" },
+        "exampleResponse": { 
+            "acknowledged": true, "insertedId": "65196eaba3034ddd92322a54" }
     }
 }
