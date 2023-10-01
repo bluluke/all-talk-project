@@ -1,6 +1,7 @@
 const { connectToDatabase } = require('../connection');
 const mongoose = require('mongoose');
 const { ObjectId } = require("mongodb");
+const NewChat = require('../schema/new-chat-schema');
 
 exports.readChats = async (fromDate, toDate) => {
     try {
@@ -43,13 +44,13 @@ exports.readChats = async (fromDate, toDate) => {
 exports.addChat = async (chatName, chatCreator) => {
 const currentTimestamp = Date.now();
 
-    const newChat = {
+    const newChat = new NewChat({
         _id: new ObjectId(),
         chatName,
         chatCreator,
         messages: [],
         timeOfCreation: {"$timestamp":{"t": currentTimestamp,"i":0}}
-    }
+    })
 
     try {
         await connectToDatabase();
