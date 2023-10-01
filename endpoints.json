@@ -42,6 +42,7 @@
                 "upsertedCount": 0,
                 "matchedCount": 1
               }
+            }
     },
     "POST /api/chats/:chatid/messages": {
         "description": "adds a new message object to messages field of chat document specified by chatid in request parameter",
