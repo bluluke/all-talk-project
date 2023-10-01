@@ -36,5 +36,19 @@
         "format": {"chatName": "Christmas", "chatCreator": "Nick Claus" },
         "exampleResponse": { 
             "acknowledged": true, "insertedId": "65196eaba3034ddd92322a54" }
+    },
+    "POST /api/chats/:chatid/messages": {
+        "description": "adds a new message object to messages field of chat document specified by chatid in request parameter",
+        "queries": [],
+        "format": {"senderName": "Dracula", "messageContent": "I prefer to spend less time in daylight."},
+        "exampleResponse": {
+            "result": {
+                "acknowledged": true,
+                "modifiedCount": 1,
+                "upsertedId": null,
+                "upsertedCount": 0,
+                "matchedCount": 1
+            }
+        }
     }
 }
