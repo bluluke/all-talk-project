@@ -35,7 +35,13 @@
         "queries": [],
         "format": {"chatName": "Christmas", "chatCreator": "Nick Claus" },
         "exampleResponse": { 
-            "acknowledged": true, "insertedId": "65196eaba3034ddd92322a54" }
+            "result": {
+                "acknowledged": true,
+                "modifiedCount": 1,
+                "upsertedId": null,
+                "upsertedCount": 0,
+                "matchedCount": 1
+              }
     },
     "POST /api/chats/:chatid/messages": {
         "description": "adds a new message object to messages field of chat document specified by chatid in request parameter",
