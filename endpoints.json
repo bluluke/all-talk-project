@@ -1,7 +1,19 @@
 {
     "GET /api/chats": {
         "description": "Serves all documents from chat-list collection",
-        "queries": [],
+        "queries": [
+            {
+                "name": "from_date",
+                "type": "string",
+                "optional": true,
+                "description": "Filters out chats before given date"
+            }, {
+                "name": "to_date",
+                "type": "string",
+                "optional": true,
+                "description": "Filters out chats after given date"
+            }
+        ],
         "format": {},
         "exampleResponse": {
             "chats": [
