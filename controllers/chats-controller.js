@@ -18,7 +18,9 @@ exports.getChats = (req, res, next) => {
 
 exports.postChat = (req, res, next) => {
     const {chatName, chatCreator} = req.body;
-    if(!chatName || !chatCreator) {
+    const nonWhitespaceRegex = /\S/;
+    const nonWhitespaceCharacterInChatName = nonWhitespaceRegex.test(chatName)
+    if(!chatName || !chatCreator || !nonWhitespaceCharacterInChatName) {
         return next({ status: 400, msg: "Bad Request"})
     }
     addChat(chatName, chatCreator)
