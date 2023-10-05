@@ -173,8 +173,9 @@ describe('POST /api/chats', () => {
             const chatListCollection = await database.collection('chat-list');
             const chatListData = await chatListCollection.find({}).toArray(); 
             expect(chatListData.length).toBe(10);
-            expect(chatListData[-1].chatName).toBe('Exceptionalism')
-            expect(chatListData[-1].chatCreator).toBe('Rishi')
+            const lastIndex = chatListData.length - 1;
+            expect(chatListData[lastIndex].chatName).toBe('Exceptionalism')
+            expect(chatListData[lastIndex].chatCreator).toBe('Rishi')
         } catch (err) {
             console.error(err)    
         }
@@ -201,8 +202,9 @@ describe('POST /api/chats', () => {
             const chatListCollection = await database.collection('chat-list');
             const chatListData = await chatListCollection.find({}).toArray(); 
             expect(chatListData.length).toBe(10);
-            expect(chatListData[-1].chatName).toBe('Nepotism')
-            expect(chatListData[-1].chatCreator).toBe('Boris')
+            const lastIndex = chatListData.length - 1;
+            expect(chatListData[lastIndex].chatName).toBe('Nepotism')
+            expect(chatListData[lastIndex].chatCreator).toBe('Boris')
         } catch (err) {
             console.error(err)    
         }
