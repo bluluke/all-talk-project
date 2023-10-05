@@ -227,6 +227,15 @@ describe('POST /api/chats', () => {
             expect(body.msg).toBe('Bad Request');
         })
     });
+    test('400: Responds with error message when chatCreator does not have at least one non whitespace character', () => { 
+        return request(app)
+        .post('/api/chats')
+        .send({ chatName: 'dairy', chatCreator: '        '})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request');
+        })
+    });
   });
 
 
