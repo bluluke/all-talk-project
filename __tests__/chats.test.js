@@ -345,3 +345,19 @@ describe('POST /api/chats', () => {
         })
     })
   });
+
+  describe('GET /api/chats/names', () => {
+    test('200: Returns array of objects with chatName, timeOfCreation and_id properties', () => {
+        return request(app)
+        .get('/api/chats/names')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.names.length).toBe(9)
+            body.names.forEach((nameObj) => {
+                expect(typeof nameObj.chatName).toBe('string')
+                expect(typeof nameObj.timeOfCreation).toBe('object')
+                expect(typeof nameObj._id).toBe('string');
+            })
+        })
+    })
+  })
