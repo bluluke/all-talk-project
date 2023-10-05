@@ -360,4 +360,22 @@ describe('POST /api/chats', () => {
             })
         })
     })
-  })
+    test('200: Returns names in reverse chronological order as default', () => {
+        return request(app)
+        .get("/api/chats/names")
+        .expect(200)
+        .then(({ body }) => {
+            let isReverseChronological = true;
+            let previousTime = body.names[0].timeOfCreation.$timestamp.t; 
+            body.names.forEach((nameObj) => {
+                const currentTime = nameObj.timeOfCreation.$timestamp.t; 
+                if(currentTime > previousTime) {
+                    isReverseChronological = false;
+                } else {
+                    previousTime = currentTime;
+                }
+            })
+            expect(isReverseChronological).toBe(true);
+        })
+    })
+  });

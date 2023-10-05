@@ -11,6 +11,13 @@ exports.readNames = async () => {
 
         const chatNamesData = await chatListCollection
             .find({}, {projection}).toArray();
+
+        const compareByTimeStamp = (nameA, nameB) => {
+            const timeStampA = nameA.timeOfCreation["$timestamp"].t; 
+            const timeStampB = nameB.timeOfCreation["$timestamp"].t;
+            return timeStampB - timeStampA; 
+        };
+        chatNamesData.sort(compareByTimeStamp);
             return chatNamesData;
 
     } catch (error) {

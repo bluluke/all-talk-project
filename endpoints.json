@@ -1,7 +1,19 @@
 {
     "GET /api/chats": {
         "description": "Serves all documents from chat-list collection",
-        "queries": [],
+        "queries": [
+            {
+                "name": "from_date",
+                "type": "string",
+                "optional": true,
+                "description": "Filters out chats before given date"
+            }, {
+                "name": "to_date",
+                "type": "string",
+                "optional": true,
+                "description": "Filters out chats after given date"
+            }
+        ],
         "format": {},
         "exampleResponse": {
             "chats": [
@@ -58,6 +70,25 @@
                 "upsertedCount": 0,
                 "matchedCount": 1
             }
+        }
+    },
+    "GET /api/chats/names": {
+        "description": "Serves chatName, timeOfCreation and _id fields of chat-list colleciton",
+        "queries": [], 
+        "format": {},
+        "exampleResponse": {
+            "names": [
+                {
+                    "_id": "6509914e64a1827eedbf6f63",
+                    "chatName": "Daylight Savings",
+                    "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
+                  },
+                  {
+                    "_id": "65086dc0de189d61e4f9c1c5",
+                    "chatName": "Have you ever seen a blonde priest?",
+                    "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
+                  }
+            ]
         }
     }
 }
