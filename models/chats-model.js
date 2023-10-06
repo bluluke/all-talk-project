@@ -45,10 +45,8 @@ exports.addChat = async (chatName, chatCreator) => {
 const currentTimestamp = Date.now();
 
     const newChat = new NewChat({
-        _id: new ObjectId(),
         chatName,
         chatCreator,
-        messages: [],
         timeOfCreation: {"$timestamp":{"t": currentTimestamp,"i":0}}
     })
 
