@@ -401,4 +401,12 @@ describe('POST /api/chats', () => {
             expect(body.msg).toBe('Not Found')
         })
     });
+    test('400: Retoru error message if parameter id is invalid type', () => {
+        return request(app)
+        .get('/api/chats/650a7f8c1f1e6c8b49e9')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
   });

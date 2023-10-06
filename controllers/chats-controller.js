@@ -1,4 +1,6 @@
+const { is } = require('express/lib/request');
 const {readChats, addChat, readSingleChat} = require('../models/chats-model')
+const { ObjectId } = require("mongodb");
 
 exports.getChats = (req, res, next) => {
     const fromDate = req.query.from_date;
@@ -32,6 +34,10 @@ exports.postChat = (req, res, next) => {
 
 exports.getSingleChat = (req, res, next) => {
     const chatId = req.params.chatid;
+    const isValidId = ObjectId.isValid(chatId);
+    if(!isValidId) {
+        return next({ status: 400, msg: 'Bad Request'})
+    }
     readSingleChat(chatId).then((data) => {
         if(data === null) {
             return next ({ status: 404, msg: 'Not Found'})
