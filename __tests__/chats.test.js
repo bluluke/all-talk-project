@@ -1,5 +1,6 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose")
+const { ObjectId } = require('mongodb')
 const {app} = require("../app");
 const request = require('supertest'); 
 const seedDatabase = require("../test-data/run-seed");
@@ -171,11 +172,14 @@ describe('POST /api/chats', () => {
             const client = mongoose.connection.client;
             const database = await client.db('all-talk-project')
             const chatListCollection = await database.collection('chat-list');
-            const chatListData = await chatListCollection.find({}).toArray(); 
+            const chatListData = await chatListCollection.find({}).toArray(); ;
             expect(chatListData.length).toBe(10);
             const lastIndex = chatListData.length - 1;
             expect(chatListData[lastIndex].chatName).toBe('Exceptionalism')
             expect(chatListData[lastIndex].chatCreator).toBe('Rishi')
+            expect(chatListData[lastIndex].messages).toEqual([]);
+            expect(typeof chatListData[lastIndex].timeOfCreation === 'object').toBe(true)
+            expect(ObjectId.isValid(chatListData[lastIndex]._id)).toBe(true);
         } catch (err) {
             console.error(err)    
         }

@@ -9,6 +9,15 @@ const newChatSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    messages: {
+        type: Array,
+        default: [],
+    },
+    timeOfCreation: {
+        type: Object,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('NewChat', newChatSchema);
+
