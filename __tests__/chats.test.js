@@ -379,3 +379,34 @@ describe('POST /api/chats', () => {
         })
     })
   });
+
+  describe('GET /api/chats/:chatid', () => { 
+    test('200: Returns chat document specified in parameter', () => { 
+        return request(app)
+        .get('/api/chats/650a7f8c1f1e6c8b49e9e832')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.chat._id).toBe('650a7f8c1f1e6c8b49e9e832')
+            expect(body.chat.chatName).toBe('Favorite Recipes')
+            expect(body.chat.chatCreator).toBe('Olivia Chef')
+            expect(Array.isArray(body.chat.messages)).toBe(true)
+            expect(typeof body.chat.timeOfCreation === 'object').toBe(true)
+        })
+    }); 
+    test('404: Returns error message if parameter id does not exist', () => { 
+        return request(app)
+        .get('/api/chats/650a7f8c1f1e6c8b49e9a111')
+        .expect(404)
+        .then(( { body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    });
+    test('400: Retoru error message if parameter id is invalid type', () => {
+        return request(app)
+        .get('/api/chats/650a7f8c1f1e6c8b49e9')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+  });

@@ -63,3 +63,19 @@ const currentTimestamp = Date.now();
         console.log(err);
     }
 }
+
+exports.readSingleChat = async (chatId, next) => {
+
+    try {
+        await connectToDatabase();
+        const client = mongoose.connection.client;
+        const database = await client.db('all-talk-project')
+        const chatListCollection = await database.collection('chat-list');
+
+        const query = { _id: chatId };
+        const chatDocument = await chatListCollection.findOne(query);
+        return chatDocument;
+    } catch (error) {
+        console.error('Error reading single chat: ', error)
+    }
+}
