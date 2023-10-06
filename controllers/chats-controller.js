@@ -1,4 +1,4 @@
-const {readChats, addChat} = require('../models/chats-model')
+const {readChats, addChat, readSingleChat} = require('../models/chats-model')
 
 exports.getChats = (req, res, next) => {
     const fromDate = req.query.from_date;
@@ -27,5 +27,15 @@ exports.postChat = (req, res, next) => {
     addChat(chatName, chatCreator)
     .then((data) => {
         res.status(201).send({ result: data }) 
+    })
+}
+
+exports.getSingleChat = (req, res, next) => {
+    const chatId = req.params.chatid;
+    readSingleChat(chatId).then((data) => {
+        if(data === null) {
+            return next ({ status: 404, msg: 'Not Found'})
+        }
+        res.status(200).send({ chat: data })
     })
 }
