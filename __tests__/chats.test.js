@@ -275,6 +275,8 @@ describe('POST /api/chats', () => {
             expect(chatWithSpecificMessage.length).toBe(1);
             expect(chatWithSpecificMessage.senderName).toBe('Dracula')
             expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
+            expect(typeof chatWithSpecificMessage.timeOfSending === 'object').toBe(true)
+            expect(ObjectId.isValid(chatWithSpecificMessage._id)).toBe(true);
         } catch (err) {
         }
     })
