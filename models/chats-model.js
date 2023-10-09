@@ -45,7 +45,6 @@ exports.addChat = async (chatName, chatCreator) => {
 const currentTimestamp = Date.now();
 
     const newChat = new NewChat({
-        _id: new ObjectId(), 
         chatName,
         chatCreator,
         timeOfCreation: {"$timestamp":{"t": currentTimestamp,"i":0}}
@@ -71,10 +70,11 @@ exports.readSingleChat = async (chatId, next) => {
         const database = await client.db('all-talk-project')
         const chatListCollection = await database.collection('chat-list');
 
-        const query = { _id: chatId };
+        const query = { _id: chatId};
         const chatDocument = await chatListCollection.findOne(query);
         return chatDocument;
     } catch (error) {
         console.error('Error reading single chat: ', error)
     }
 }
+
