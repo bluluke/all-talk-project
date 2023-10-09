@@ -256,6 +256,7 @@ describe('POST /api/chats', () => {
      })
     }); 
     test('201: Adds message to chat document', async () => {
+        let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
         .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.'})
@@ -265,20 +266,15 @@ describe('POST /api/chats', () => {
             const client = mongoose.connection.client;
             const database = await client.db('all-talk-project')
             const chatlistCollection = await database.collection('chat-list')
-
-            const chatWithSpecificMessage = await chatlistCollection.aggregate([
-                { $match: { _id: '6509914e64a1827eedbf6f63'}},
-                { $project: 
-                    { messages: { $arrayElemAt: ['$messages', 3]}}
-                }
-            ]).toArray();
-            expect(chatWithSpecificMessage.length).toBe(1);
-            expect(chatWithSpecificMessage.senderName).toBe('Dracula')
-            expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
-            expect(typeof chatWithSpecificMessage.timeOfSending === 'object').toBe(true)
-            expect(ObjectId.isValid(chatWithSpecificMessage._id)).toBe(true);
+            
+            const query = { _id: '6509914e64a1827eedbf6f63' };
+            const chatDocument = await chatlistCollection.findOne(query);
+            databaseQueryResult = chatDocument;
         } catch (err) {
         }
+        expect(databaseQueryResult.messages.length).toBe(4);
+        expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
+        expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
     })
     test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
         return request(app)
@@ -292,6 +288,7 @@ describe('POST /api/chats', () => {
         })
        }); 
        test('201: Adds message to chat document when post request body has unnecessary property', async () => {
+        let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
         .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', unnecessary: 'This property is unnecessary'})
@@ -301,18 +298,14 @@ describe('POST /api/chats', () => {
             const client = mongoose.connection.client;
             const database = await client.db('all-talk-project')
             const chatlistCollection = await database.collection('chat-list')
-
-            const chatWithSpecificMessage = await chatlistCollection.aggregate([
-                { $match: { _id: '6509914e64a1827eedbf6f63'}},
-                { $project: 
-                    { messages: { $arrayElemAt: ['$messages', 3]}}
-                }
-            ]).toArray();
-            expect(chatWithSpecificMessage.length).toBe(1);
-            expect(chatWithSpecificMessage.senderName).toBe('Dracula')
-            expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
+            const query = { _id: '6509914e64a1827eedbf6f63'}
+            const chatDocument = await chatlistCollection.findOne(query);
+            databaseQueryResult = chatDocument;
         } catch (err) {
         }
+        expect(databaseQueryResult.messages.length).toBe(4)
+        expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
+        expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
     })
     test('400: Returns error message when id has non alphanumeric characters', () => {
         return request(app)
@@ -416,3 +409,6 @@ describe('POST /api/chats', () => {
         })
     })
   });
+
+
+
