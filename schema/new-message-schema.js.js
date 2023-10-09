@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema.Types
+const { ObjectId } = mongoose.Types
+
 const newMessageSchema = new mongoose.Schema({
     _id: {
-        type: ObjectId,
-        default: () => new ObjectId()
+        type: String,
+        default: () => new ObjectId().toString()
     },
     senderName: {
         type: String,
