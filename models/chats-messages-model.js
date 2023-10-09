@@ -7,7 +7,7 @@ exports.addMessage = async (senderName, messageContent, chatId) => {
 
     const currentTimestamp = Date.now(); 
        const newMessage = new NewMessage({
-        _id: new ObjectId(),
+        id: new ObjectId().toString(),
         senderName,
         timeOfSending:  {"$timestamp":{"t": currentTimestamp,"i":0}},
         messageContent,
