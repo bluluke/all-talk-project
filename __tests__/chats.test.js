@@ -256,6 +256,7 @@ describe('POST /api/chats', () => {
      })
     }); 
     test('201: Adds message to chat document', async () => {
+        let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
         .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.'})
@@ -265,20 +266,15 @@ describe('POST /api/chats', () => {
             const client = mongoose.connection.client;
             const database = await client.db('all-talk-project')
             const chatlistCollection = await database.collection('chat-list')
-
-            const chatWithSpecificMessage = await chatlistCollection.aggregate([
-                { $match: { _id: '6509914e64a1827eedbf6f63'}},
-                { $project: 
-                    { messages: { $arrayElemAt: ['$messages', 3]}}
-                }
-            ]).toArray();
-            expect(chatWithSpecificMessage.length).toBe(1);
-            expect(chatWithSpecificMessage.senderName).toBe('Dracula')
-            expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
-            expect(typeof chatWithSpecificMessage.timeOfSending === 'object').toBe(true)
-            expect(ObjectId.isValid(chatWithSpecificMessage._id)).toBe(true);
+            
+            const query = { _id: '6509914e64a1827eedbf6f63' };
+            const chatDocument = await chatlistCollection.findOne(query);
+            databaseQueryResult = chatDocument;
         } catch (err) {
         }
+        expect(databaseQueryResult.messages.length).toBe(4);
+        expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
+        expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
     })
     test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
         return request(app)
@@ -416,3 +412,35 @@ describe('POST /api/chats', () => {
         })
     })
   });
+
+
+
+
+
+// from post message to chat document with some exytra console.logs and the senderName test changed to draculaaa to so it it would fail
+//   test.only('201: Adds message to chat document', async () => {
+//     await request(app)
+//     .post('/api/chats/6509914e64a1827eedbf6f63/messages')
+//     .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.'})
+//     .expect(201)
+//     try {
+//         await connectToDatabase();
+//         const client = mongoose.connection.client;
+//         const database = await client.db('all-talk-project')
+//         const chatlistCollection = await database.collection('chat-list')
+//         const chatWithSpecificMessage = await chatlistCollection.aggregate([
+//             { $match: { _id: '6509914e64a1827eedbf6f63'}},
+//             { $project: 
+//                 { messages: { $arrayElemAt: ['$messages', 3]}}
+//             }
+//         ]).toArray();
+//         console.log('chatWithCpecific...: ', chatWithSpecificMessage);
+//         console.log('chatWithSpecificMessage.length: ', chatWithSpecificMessage.length);
+//         console.log('chatWithSpecificMessage[0].messages.senderName: ', chatWithSpecificMessage[0].messages.senderName);
+//         console.log('chatWithSpecificMessage.messageContent: ', chatWithSpecificMessage.messageContent);
+//         expect(chatWithSpecificMessage.length).toBe(1);
+//         expect(chatWithSpecificMessage[0].messages.senderName).toBe('Draculaaaaaaaaa')
+//         expect(chatWithSpecificMessage.messageContent).toBe('I prefer to spend less time in daylight.')
+//     } catch (err) {
+//     }
+// })
