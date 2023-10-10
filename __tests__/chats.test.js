@@ -462,4 +462,16 @@ describe('POST /api/chats', () => {
     })
 })
 
-
+describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
+    test('200: Acknowledges deletion of target message', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result.modifiedCount).toBe(1)
+            expect(body.result.matchedCount).toBe(1)
+        })
+    })
+    
+})
