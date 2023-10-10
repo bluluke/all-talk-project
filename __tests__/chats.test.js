@@ -444,6 +444,14 @@ describe('POST /api/chats', () => {
         expect(containsDocument).toBe(false); 
         expect(databaseQueryResult.length).toBe(8)
     })
+    test('404: Returns error message if id does not exist', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9f3g9')
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
 })
 
 
