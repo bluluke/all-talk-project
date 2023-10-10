@@ -78,3 +78,17 @@ exports.readSingleChat = async (chatId, next) => {
     }
 }
 
+exports.removeChat = async (chatid) => {
+    try {
+        await connectToDatabase();
+        const client = mongoose.connection.client;
+        const database = client.db('all-talk-project')
+        const chatListCollection = database.collection('chat-list');
+        const chatDeletion = await chatListCollection.deleteOne({ _id: chatid})
+        
+        return chatDeletion;
+
+    } catch (err) {
+
+    }
+}

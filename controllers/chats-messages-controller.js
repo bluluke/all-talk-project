@@ -1,4 +1,4 @@
-const { addMessage } = require('../models/chats-messages-model')
+const { addMessage, removeMessage } = require('../models/chats-messages-model')
 const { ObjectId } = require("mongodb");
 
 
@@ -28,5 +28,20 @@ exports.postMessage = (req, res, next) => {
     addMessage(senderName, messageContent, chatId)
     .then((data) => {
         res.status(201).send({ result: data})
+    })
+  }
+
+
+  exports.deleteMessage = (req, res, next) => {
+    const chatId = req.params.chatid;
+    const messageId = req.params.messageid;
+    if(!ObjectId.isValid(chatId) || !ObjectId.isValid(messageId)) {
+        return next({ status: 400, msg: 'Bad Request'})
+    }
+    removeMessage(chatId, messageId).then((data) => {
+        if(data.modifiedCount === 0) {
+            return next({ status: 404, msg: 'Not Found'})
+        }
+        res.status(200).send({ result: data })
     })
   }

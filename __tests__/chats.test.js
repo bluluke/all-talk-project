@@ -410,5 +410,117 @@ describe('POST /api/chats', () => {
     })
   });
 
+  describe('DELETE /api/chats/:chatid', () => {
+    test('200: returns message to confirm deletion', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9c1c4')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result.deletedCount).toBe(1);
+        })
+    })
+    test('200: removes chat document from chat-list collection', async () => {
+        let databaseQueryResult;
+        await request(app)
+        .delete('/api/chats/650a7f8c1f1e6c8b49e9e836')
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list')
+            const chatListData = await chatListCollection.find({}).toArray();
+            databaseQueryResult = chatListData;
+        } catch (err) {
 
+        }
+        let containsDocument = false;
+        databaseQueryResult.forEach((chat) => {
+            if(chat._id === '650a7f8c1f1e6c8b49e9e836') {
+                containsDocument = true;
+            }
+        })
+        expect(containsDocument).toBe(false); 
+        expect(databaseQueryResult.length).toBe(8)
+    })
+    test('404: Returns error message if id does not exist', () => {
+        return request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f65')
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
+    test('400: Returns error message if id not valid type', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+})
 
+describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
+    test('200: Acknowledges deletion of target message', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result.modifiedCount).toBe(1)
+            expect(body.result.matchedCount).toBe(1)
+        })
+    })
+    test('200: Removes specified message object from specified chat document', async () => {
+        let messageExists = true;
+        await request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f63/messages/65086dc0de189d61e4f9c1c7')
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list')
+            
+            const updatedChat = await chatListCollection.findOne({ _id: '6509914e64a1827eedbf6f63', })
+            messageExists = updatedChat.messages.some(message => message._id === '65086dc0de189d61e4f9c1c7')
+        } catch(err) {
+
+        }
+        expect(messageExists).toBe(false);
+    })
+    test('400: Responds with error message if chatid not a valid id', () => {
+        return request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f6!/messages/65086dc0de189d61e4f9c1c7')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Responds with error message if messageid not a valid id', () => {
+        return request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f63/messages/65086dc0de189d61e4f9c1c!')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('404: Responds with error message if chatid does not exist', () => {
+        return request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f99/messages/65086dc0de189d61e4f9c1c7')
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
+    test('404: Responds with error message if messageid does not exist', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1f9')
+        .expect(404)
+        .then(({ body}) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
+})
