@@ -515,4 +515,12 @@ describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
             expect(body.msg).toBe('Not Found')
         })
     })
+    test('404: Responds with error message if messageid does not exist', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1f9')
+        .expect(404)
+        .then(({ body}) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
 })
