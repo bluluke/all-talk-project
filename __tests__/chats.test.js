@@ -473,5 +473,22 @@ describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
             expect(body.result.matchedCount).toBe(1)
         })
     })
-    
+    test('200: Removes specified message object from specified chat document', async () => {
+        let messageExists = true;
+        await request(app)
+        .delete('/api/chats/6509914e64a1827eedbf6f63/messages/65086dc0de189d61e4f9c1c7')
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client;
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list')
+            
+            const updatedChat = await chatListCollection.findOne({ _id: '6509914e64a1827eedbf6f63', })
+            messageExists = updatedChat.messages.some(message => message._id === '65086dc0de189d61e4f9c1c7')
+        } catch(err) {
+
+        }
+        expect(messageExists).toBe(false);
+    })
 })
