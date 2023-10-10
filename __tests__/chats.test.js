@@ -420,6 +420,30 @@ describe('POST /api/chats', () => {
             expect(body.result.deletedCount).toBe(1);
         })
     })
+    test('200: removes chat document from chat-list collection', async () => {
+        let databaseQueryResult;
+        await request(app)
+        .delete('/api/chats/650a7f8c1f1e6c8b49e9e836')
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client
+            const database = await client.db('all-talk-project')
+            const chatListCollection = await database.collection('chat-list')
+            const chatListData = await chatListCollection.find({}).toArray();
+            databaseQueryResult = chatListData;
+        } catch (err) {
+
+        }
+        let containsDocument = false;
+        databaseQueryResult.forEach((chat) => {
+            if(chat._id === '650a7f8c1f1e6c8b49e9e836') {
+                containsDocument = true;
+            }
+        })
+        expect(containsDocument).toBe(false); 
+        expect(databaseQueryResult.length).toBe(8)
+    })
 })
 
 
