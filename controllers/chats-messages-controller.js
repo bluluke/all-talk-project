@@ -35,7 +35,7 @@ exports.postMessage = (req, res, next) => {
   exports.deleteMessage = (req, res, next) => {
     const chatId = req.params.chatid;
     const messageId = req.params.messageid;
-    if(!ObjectId.isValid(chatId)) {
+    if(!ObjectId.isValid(chatId) || !ObjectId.isValid(messageId)) {
         return next({ status: 400, msg: 'Bad Request'})
     }
     removeMessage(chatId, messageId).then((data) => {
