@@ -1,4 +1,3 @@
-const { is } = require('express/lib/request');
 const {readChats, addChat, readSingleChat, removeChat} = require('../models/chats-model')
 const { ObjectId } = require("mongodb");
 
