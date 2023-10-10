@@ -197,6 +197,8 @@ describe('POST /api/chats', () => {
         })
       }); 
     test('201: Adds document with unnecessary properties to database', async () => {
+        let chatListData;
+        let lastIndex;
         await request(app)
         .post('/api/chats')
         .send({chatName: 'Nepotism', chatCreator: 'Boris', unnecessary: 'This property is not needed' })
@@ -206,14 +208,14 @@ describe('POST /api/chats', () => {
             const client = mongoose.connection.client;
             const database = await client.db('all-talk-project')
             const chatListCollection = await database.collection('chat-list');
-            const chatListData = await chatListCollection.find({}).toArray(); 
-            expect(chatListData.length).toBe(10);
-            const lastIndex = chatListData.length - 1;
-            expect(chatListData[lastIndex].chatName).toBe('Nepotism')
-            expect(chatListData[lastIndex].chatCreator).toBe('Boris')
+            chatListData = await chatListCollection.find({}).toArray(); 
+            lastIndex = chatListData.length - 1;
         } catch (err) {
             console.error(err)    
         }
+        expect(chatListData.length).toBe(10);
+        expect(chatListData[lastIndex].chatName).toBe('Nepotism')
+        expect(chatListData[lastIndex].chatCreator).toBe('Boris')
     })
     test('400: Responds with error message when property names are malformed', () => {
         return request(app)
