@@ -47,6 +47,9 @@ exports.getSingleChat = (req, res, next) => {
 
 exports.deleteChat = (req, res, next) => {
     const chatId = req.params.chatid;
+    if(!ObjectId.isValid(chatId)) {
+        return next({ status: 400, msg: 'Bad Request'})
+    }
     removeChat(chatId).then((data) => {
         if(data.deletedCount === 0) {
             return next({ status: 404, msg: 'Not Found'})

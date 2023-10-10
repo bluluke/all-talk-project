@@ -446,10 +446,18 @@ describe('POST /api/chats', () => {
     })
     test('404: Returns error message if id does not exist', () => {
         return request(app)
-        .delete('/api/chats/65086dc0de189d61e4f9f3g9')
+        .delete('/api/chats/6509914e64a1827eedbf6f65')
         .expect(404)
         .then(({ body }) => {
             expect(body.msg).toBe('Not Found')
+        })
+    })
+    test('400: Returns error message if id not valid type', () => {
+        return request(app)
+        .delete('/api/chats/65086dc0de189d61e4f9')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
         })
     })
 })
