@@ -528,3 +528,17 @@ describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
         })
     })
 })
+describe('PATCH /api/chats:chatid/messages/:messageid', () => {
+    test("200: Acknowledges successful patch", () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'abcde'})
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result.modifiedCount).toBe(1)
+            expect(body.result.matchedCount).toBe(1)
+        })
+    })
+})
+
