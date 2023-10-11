@@ -540,5 +540,33 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
             expect(body.result.matchedCount).toBe(1)
         })
     })
+    test("200: Updates target message object", async () => {
+        let aggregationResult;
+        await request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'fghij'})
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client
+            const database = await client.db('all-talk-project');
+            const chatListColleciton = await database.collection('chat-list')
+            
+            aggregationResult = await chatListColleciton.aggregate([
+                { $match: { _id: '650a7f8c1f1e6c8b49e9e830'} },
+                { $unwind: '$messages' },
+                { $match: { 'messages._id': '65086dc0de189d61e4f9c1ca' }},
+                { $replaceRoot: { newRoot: '$messages' } }
+            ]).toArray();
+                
+        } catch (err) {
+
+        }
+        expect(aggregationResult[0]._id).toBe('65086dc0de189d61e4f9c1ca')
+        expect(aggregationResult[0].messageContent).toBe('fghij')
+    })
 })
+
+
+
 
