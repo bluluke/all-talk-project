@@ -118,7 +118,7 @@
             }
         }
     },
-    "GET /api/chats/:chatid": {
+    "DELETE /api/chats/:chatid": {
         "description": "Deletes single chat document",
         "queries": [],
         "format": {},
