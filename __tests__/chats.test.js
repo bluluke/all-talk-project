@@ -583,6 +583,15 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
             expect(body.msg).toBe('Not Found')
         })
     })
+    test('400: Returns error message when chatid is not a valid id', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e9^f/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'uvwxyz'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
 })
 
 
