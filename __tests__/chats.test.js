@@ -601,6 +601,15 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
             expect(body.msg).toBe('Bad Request')
         })
     })
+    test('400: Returns error message when body is malformed', () => {
+        return request(app)
+        .patch('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .send({ mContent: 'utsr'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
 })
 
 
