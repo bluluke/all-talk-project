@@ -47,14 +47,15 @@ exports.postMessage = (req, res, next) => {
   }
 
   exports.patchMessage = (req, res, next) => {
-    
+
     const chatId = req.params.chatid;
     const messageId = req.params.messageid;
     const { messageContent } = req.body;
     const nonWhitespaceRegex = /\S/
     const messageContentHasNoWhitespaceCharacter = nonWhitespaceRegex.test(messageContent);
+    const isMessageContentString = typeof messageContent === 'string';
 
-    if(!ObjectId.isValid(chatId) || !ObjectId.isValid(messageId) || !messageContent || !messageContentHasNoWhitespaceCharacter) {
+    if(!ObjectId.isValid(chatId) || !ObjectId.isValid(messageId) || !messageContent || !messageContentHasNoWhitespaceCharacter || !isMessageContentString) {
         return next({ status: 400, msg: 'Bad Request' })
     }
     updateMessage(chatId, messageId, messageContent).then((data) => {
