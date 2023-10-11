@@ -117,5 +117,16 @@
                 "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
             }
         }
+    },
+    "GET /api/chats/:chatid": {
+        "description": "Deletes single chat document",
+        "queries": [],
+        "format": {},
+        "exampleResponse": {
+            "result": {
+                "acknowledged": true, 
+                "deletedCount": 1
+            }
+        }
     }
 }
