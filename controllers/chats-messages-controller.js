@@ -50,7 +50,7 @@ exports.postMessage = (req, res, next) => {
     const chatId = req.params.chatid;
     const messageId = req.params.messageid;
     const { messageContent } = req.body;
-
+ 
     if(!ObjectId.isValid(chatId) || !ObjectId.isValid(messageId) || !messageContent) {
         return next({ status: 400, msg: 'Bad Request' })
     }
