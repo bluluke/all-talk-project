@@ -565,6 +565,15 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
         expect(aggregationResult[0]._id).toBe('65086dc0de189d61e4f9c1ca')
         expect(aggregationResult[0].messageContent).toBe('fghij')
     })
+    test('404: Returns error message when chatid does not exist', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e925/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'klmno'})
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
 })
 
 

@@ -52,6 +52,9 @@ exports.postMessage = (req, res, next) => {
     const { messageContent } = req.body;
 
     updateMessage(chatId, messageId, messageContent).then((data) => {
+        if(data.matchedCount === 0) {
+            return next({ status: 404, msg: 'Not Found'})
+        }
         res.status(200).send({ result: data })
     })
   }
