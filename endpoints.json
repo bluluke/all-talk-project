@@ -90,5 +90,32 @@
                   }
             ]
         }
+    }, 
+    "GET /api/chats/:chatid": {
+        "descriptiion": "Serves single chat document",
+        "queries": [],
+        "format": {},
+        "exampleResponse": {
+            "chat":  {
+                "_id":"65086dc0de189d61e4f9c1c4",
+                "chatName":"Have you ever seen a blonde priest? ",
+                "chatCreator":"Terry Plimsoll",
+                "messages":[
+                    {   
+                        "_id": "65086dc0de189d61e4f9c1c5",
+                        "senderName":"Keired Stamp",
+                        "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+                        "messageContent":"I have never."
+                    },
+                    {   
+                        "_id": "65086dc0de189d61e4f9c1c6",    
+                        "senderName":"Phillip Star",
+                        "timeOfSending":{"$timestamp":{"t":0,"i":0}},
+                        "messageContent":"I was blonde as a child. "
+                    }
+                ],
+                "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
+            }
+        }
     }
 }
