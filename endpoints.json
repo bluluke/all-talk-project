@@ -92,7 +92,7 @@
         }
     }, 
     "GET /api/chats/:chatid": {
-        "descriptiion": "Serves single chat document",
+        "description": "Serves single chat document",
         "queries": [],
         "format": {},
         "exampleResponse": {
