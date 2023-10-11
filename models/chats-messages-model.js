@@ -47,6 +47,24 @@ exports.removeMessage = async (chatId, messageId) => {
     }
 }
 
+exports.updateMessage = async (chatId, messageId, messageContent) => {
+  try {
+    await connectToDatabase()
+    const client = mongoose.connection.client
+    const database = await client.db('all-talk-project')
+    const chatListCollection = await database.collection('chat-list');
+
+    const chatUpdate = await chatListCollection.updateOne(
+      { _id: chatId, 'messages._id': messageId },
+      { $set: { 'messages.$.messageContent': messageContent}}
+    );
+    return chatUpdate;
+
+  } catch (err) {
+
+  }
+}
+
 
 
 

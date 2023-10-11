@@ -528,3 +528,117 @@ describe('DELETE /api/chats/:chatid/messages/:messageid', () => {
         })
     })
 })
+describe('PATCH /api/chats:chatid/messages/:messageid', () => {
+    test("200: Acknowledges successful patch", () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'abcde'})
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.result.acknowledged).toBe(true)
+            expect(body.result.modifiedCount).toBe(1)
+            expect(body.result.matchedCount).toBe(1)
+        })
+    })
+    test("200: Updates target message object", async () => {
+        let aggregationResult;
+        await request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'fghij'})
+        .expect(200)
+        try {
+            await connectToDatabase()
+            const client = mongoose.connection.client
+            const database = await client.db('all-talk-project');
+            const chatListColleciton = await database.collection('chat-list')
+            
+            aggregationResult = await chatListColleciton.aggregate([
+                { $match: { _id: '650a7f8c1f1e6c8b49e9e830'} },
+                { $unwind: '$messages' },
+                { $match: { 'messages._id': '65086dc0de189d61e4f9c1ca' }},
+                { $replaceRoot: { newRoot: '$messages' } }
+            ]).toArray();
+                
+        } catch (err) {
+
+        }
+        expect(aggregationResult[0]._id).toBe('65086dc0de189d61e4f9c1ca')
+        expect(aggregationResult[0].messageContent).toBe('fghij')
+    })
+    test('404: Returns error message when chatid does not exist', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e925/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'klmno'})
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
+    test('404: Returns error message when messageid does not exist', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1db')
+        .send({ messageContent: 'pqrst'})
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Not Found')
+        })
+    })
+    test('400: Returns error message when chatid is not a valid id', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e9^f/messages/65086dc0de189d61e4f9c1ca')
+        .send({ messageContent: 'uvwxyz'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when messageid is not a valid id', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e&fbc1ca')
+        .send({ messageContent: 'zyxwv'})
+        .expect(400)
+        .then(({ body}) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when body is malformed', () => {
+        return request(app)
+        .patch('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .send({ mContent: 'utsr'})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Return error message when messageContent has a value of an empty string', () => {
+        return request(app)
+        .patch('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .send({ messageContent: ''})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when messageContent does not contain non whitespace character', () => {
+        return request(app)
+        .patch('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .send({ messageContent: '      '})
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request');
+        })
+    })
+    test('400: Returns error message when messageContent does not have a value of a string', () => {
+        return request(app)
+        .patch('/api/chats/65086dc0de189d61e4f9c1c4/messages/65086dc0de189d61e4f9c1c5')
+        .send({ messageContent: 12345 })
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+})
+
+
+
+
