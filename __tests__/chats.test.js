@@ -576,7 +576,7 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
     })
     test('404: Returns error message when messageid does not exist', () => {
         return request(app)
-        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9b25r')
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9c1db')
         .send({ messageContent: 'pqrst'})
         .expect(404)
         .then(({ body }) => {
@@ -589,6 +589,15 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
         .send({ messageContent: 'uvwxyz'})
         .expect(400)
         .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+    test('400: Returns error message when messageid is not a valid id', () => {
+        return request(app)
+        .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e&fbc1ca')
+        .send({ messageContent: 'zyxwv'})
+        .expect(400)
+        .then(({ body}) => {
             expect(body.msg).toBe('Bad Request')
         })
     })
