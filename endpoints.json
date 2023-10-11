@@ -128,5 +128,19 @@
                 "deletedCount": 1
             }
         }
+    },
+    "DELETE /api/chats/:chatid/messages/:messageid": {
+        "description": "Deletes single message object from messages field of specified chat document",
+        "queries": [],
+        "format": {},
+        "exampleResponse": {
+            "result":  {
+                "acknowledged": true,
+                "modifiedCount": 1,
+                "upsertedId": null,
+                "upsertedCount": 0,
+                "matchedCount": 1
+              }
+        }
     }
 }
