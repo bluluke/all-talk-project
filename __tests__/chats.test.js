@@ -574,7 +574,7 @@ describe('PATCH /api/chats:chatid/messages/:messageid', () => {
             expect(body.msg).toBe('Not Found')
         })
     })
-    test('404: REturns error message when messageid does not exist', () => {
+    test('404: Returns error message when messageid does not exist', () => {
         return request(app)
         .patch('/api/chats/650a7f8c1f1e6c8b49e9e830/messages/65086dc0de189d61e4f9b25r')
         .send({ messageContent: 'pqrst'})
