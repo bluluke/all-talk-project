@@ -142,5 +142,19 @@
                 "matchedCount": 1
               }
         }
+    },
+    "PATCH /api/chats/:chatid/messages/:messageid": {
+        "description": "Updates messageContent field of specified message object",
+        "queries": [],
+        "format": {},
+        "exampleResponse": {
+            "result":  {
+                "acknowledged": true,
+                "modifiedCount": 1,
+                "upsertedId": null,
+                "upsertedCount": 0,
+                "matchedCount": 1
+              }
+        }
     }
 }
