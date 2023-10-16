@@ -5,6 +5,9 @@ app.use(express.json());
 const apiRouter = require("./routes/api-router");
 app.use("/api", apiRouter)
 
+app.all("*", (req, res) => {
+  res.status(404).send({ status: 404, msg: "Not Found" });
+});
 
   app.use((err, req, res, next) => {
     if (err.status && err.msg) {
@@ -15,3 +18,14 @@ app.use("/api", apiRouter)
 
 
 module.exports = {app}; 
+
+
+
+
+
+
+
+
+
+
+
