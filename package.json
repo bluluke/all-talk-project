@@ -10,10 +10,13 @@
   "author": "Luke Ford",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-ws": "^5.0.2",
     "mongodb": "^5.9.0",
-    "mongoose": "^7.5.2"
+    "mongoose": "^7.5.2",
+    "ws": "^8.14.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
