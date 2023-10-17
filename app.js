@@ -10,19 +10,21 @@ const wss = expressWs.getWss();
 app.use(express.json());
 app.use(cors());  
 
-app.ws('/websocket', (ws, req) => {
 
+
+app.ws('/websocket', (ws, req) => {
   console.log('WebSocket connected');
+
   ws.on('message', (message) => {
     console.log('Received message:', message);
-
+  
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
+        client.send(message); 
       }
     });
   });
-
+  
   ws.on('close', () => {
     console.log('WebSocket disconnected');
   });
