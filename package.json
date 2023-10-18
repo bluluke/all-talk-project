@@ -5,7 +5,8 @@
   "main": "listen.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon listen.js"
+    "start": "node listen.js",
+    "dev": "nodemon listen.js"
   },
   "author": "Luke Ford",
   "license": "MIT",
