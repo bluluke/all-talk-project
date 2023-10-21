@@ -11,7 +11,11 @@ exports.postMessage = (req, res, next) => {
     
     const chatId = req.params.chatid;
     const isChatIdValid = ObjectId.isValid(chatId);
-    const idContainsInvalidCharacters = alphanumericRegex.test(chatId)
+    const chatIdContainsInvalidCharacters = alphanumericRegex.test(chatId)
+
+    const messageId = req.body._id;
+    const isMessageIdValid = ObjectId.isValid(messageId)
+    const messageIdContainsInvalidCharacters  = alphanumericRegex.test(messageId);
 
     const nonWhitespaceCharacterInsenderName = nonWhitespaceRegex.test(senderName);
     const nonWhiteSpaceCharcterInMessageContent = nonWhitespaceRegex.test(messageContent);
@@ -19,13 +23,13 @@ exports.postMessage = (req, res, next) => {
     const isMessageContentAString = typeof messageContent === 'string';
 
 
-    if(idContainsInvalidCharacters || !isChatIdValid || chatId.length !== 24 || !senderName
+    if(chatIdContainsInvalidCharacters || !isChatIdValid || chatId.length !== 24 || messageIdContainsInvalidCharacters || !isMessageIdValid || messageId.length !== 24 || !senderName
         || !messageContent || !nonWhitespaceCharacterInsenderName || !nonWhiteSpaceCharcterInMessageContent || !isSenderNameAString
          || !isMessageContentAString) {
         return next({ status: 400, msg: "Bad Request"});
     }
 
-    addMessage(senderName, messageContent, chatId)
+    addMessage(senderName, messageContent, chatId, messageId)
     .then((data) => {
         res.status(201).send({ result: data})
     })

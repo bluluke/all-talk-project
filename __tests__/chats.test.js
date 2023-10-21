@@ -259,11 +259,11 @@ describe('POST /api/chats', () => {
         expect(body.result.matchedCount).toBe(1)
      })
     }); 
-    test('201: Adds message to chat document', async () => {
+    test.only('201: Adds message to chat document', async () => {
         let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
-        .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', $timestamp: { t: 1697633948, i: 0 }})
         .expect(201)
         try {
             await connectToDatabase();
@@ -279,6 +279,7 @@ describe('POST /api/chats', () => {
         expect(databaseQueryResult.messages.length).toBe(4);
         expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
         expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
+        expect(databaseQueryResult.messages[3]._id).toBe('65086dc0de189d61e4f9c1c9')
     })
     test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
         return request(app)

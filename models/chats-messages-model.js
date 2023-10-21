@@ -3,11 +3,10 @@ const { ObjectId } = require("mongodb");
 const mongoose = require('mongoose');
 const NewMessage = require('../schema/new-message-schema.js')
 
-exports.addMessage = async (senderName, messageContent, chatId) => {
+exports.addMessage = async (senderName, messageContent, chatId, messageId) => {
 
-    const currentTimestamp = Date.now(); 
        const newMessage = new NewMessage({
-        id: new ObjectId().toString(),
+        id: messageId,
         senderName,
         timeOfSending:  {"$timestamp":{"t": currentTimestamp,"i":0}},
         messageContent,
