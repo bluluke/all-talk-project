@@ -251,7 +251,7 @@ describe('POST /api/chats', () => {
     test('201: Acknowledges successful post request ', () => { 
      return request(app)
      .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
-     .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.'})
+     .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', $timestamp: { t: 1697633948, i: 0 }})
      .expect(201)
      .then(({body }) => {
         expect(body.result.acknowledged).toBe(true)
