@@ -251,7 +251,7 @@ describe('POST /api/chats', () => {
     test('201: Acknowledges successful post request ', () => { 
      return request(app)
      .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
-     .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.'})
+     .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
      .expect(201)
      .then(({body }) => {
         expect(body.result.acknowledged).toBe(true)
@@ -263,7 +263,7 @@ describe('POST /api/chats', () => {
         let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
-        .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(201)
         try {
             await connectToDatabase();
@@ -279,11 +279,13 @@ describe('POST /api/chats', () => {
         expect(databaseQueryResult.messages.length).toBe(4);
         expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
         expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
+        expect(databaseQueryResult.messages[3]._id).toBe('65086dc0de189d61e4f9c1c9')
+        expect(databaseQueryResult.messages[3]).toHaveProperty('timeOfSending');
     })
     test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
         return request(app)
         .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
-        .send({senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(201)
         .then(({body }) => {
            expect(body.result.acknowledged).toBe(true)
@@ -295,7 +297,7 @@ describe('POST /api/chats', () => {
         let databaseQueryResult;
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
-        .send({senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', unnecessary: 'This property is unnecessary'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', unnecessary: 'This property is unnecessary', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(201)
         try {
             await connectToDatabase();
@@ -314,7 +316,7 @@ describe('POST /api/chats', () => {
     test('400: Returns error message when id has non alphanumeric characters', () => {
         return request(app)
         .post('/api/chats/6509914e64a1827eedbf@@@@@/messages')
-        .send({senderName: 'Kevin Smith', messageContent: 'This message will not reach the chat document.'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Kevin Smith', messageContent: 'This message will not reach the chat document.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
@@ -323,7 +325,7 @@ describe('POST /api/chats', () => {
     test('400: Returns error message when id does not have length of 24', () => {
         return request(app)
         .post('/api/chats/6509914e64a1827eedbf/messages')
-        .send({senderName: 'David Jones', messageContent: 'This message will not reach the chat document.'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'David Jones', messageContent: 'This message will not reach the chat document.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
@@ -332,7 +334,7 @@ describe('POST /api/chats', () => {
     test('400: Returns error message when senderName value does not have a least 1 non whitespace character', () => {
         return request(app)
         .post('/api/chats/650a7f8c1f1e6c8b49e9e832/messages')
-        .send({senderName: '     ', messageContent: 'This message will not reach the chat document.'})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: '     ', messageContent: 'This message will not reach the chat document.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
@@ -341,7 +343,7 @@ describe('POST /api/chats', () => {
     test('400: Returns error message when messageContent value does not have a least 1 non whitespace character', () => {
         return request(app)
         .post('/api/chats/650a7f8c1f1e6c8b49e9e832/messages')
-        .send({senderName: 'Alan McCarthy', messageContent: '     '})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Alan McCarthy', messageContent: '     ', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
