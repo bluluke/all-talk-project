@@ -81,11 +81,13 @@
                 {
                     "_id": "6509914e64a1827eedbf6f63",
                     "chatName": "Daylight Savings",
+                    "chatCreator": "David Voyager",
                     "timeOfCreation":{"$timestamp":{"t":0,"i":0}}
                   },
                   {
                     "_id": "65086dc0de189d61e4f9c1c5",
                     "chatName": "Have you ever seen a blonde priest?",
+                    "chatCreator": "Frank James",
                     "timeOfCreation":{"$timestamp":{"t":1695126249,"i":7}}
                   }
             ]
