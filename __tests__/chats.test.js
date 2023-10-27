@@ -277,7 +277,6 @@ describe('POST /api/chats', () => {
             databaseQueryResult = chatDocument;
         } catch (err) {
         }
-        console.log('timeOfSending: ', databaseQueryResult.messages[3].timeOfSending);
         expect(databaseQueryResult.messages.length).toBe(4);
         expect(databaseQueryResult.messages[3].senderName).toBe('Dracula')
         expect(databaseQueryResult.messages[3].messageContent).toBe('I prefer to spend less time in daylight.')
