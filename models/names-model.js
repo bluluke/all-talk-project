@@ -7,7 +7,7 @@ exports.readNames = async () => {
         const client = mongoose.connection.client; 
         const database = await client.db('all-talk-project')
         const chatListCollection = await database.collection('chat-list'); 
-        const projection = { chatName: 1, _id: 1, timeOfCreation: 1 }; 
+        const projection = { chatName: 1, _id: 1, timeOfCreation: 1, chatCreator: 1 }; 
 
         const chatNamesData = await chatListCollection
             .find({}, {projection}).toArray();

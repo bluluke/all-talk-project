@@ -261,9 +261,10 @@ describe('POST /api/chats', () => {
     }); 
     test('201: Adds message to chat document', async () => {
         let databaseQueryResult;
+        const timeOfSending = { $timestamp: { t: 1697633948, i: 0 }}
         await request(app)
         .post('/api/chats/6509914e64a1827eedbf6f63/messages')
-        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'Dracula', messageContent: 'I prefer to spend less time in daylight.', timeOfSending})
         .expect(201)
         try {
             await connectToDatabase();
@@ -283,9 +284,10 @@ describe('POST /api/chats', () => {
         expect(databaseQueryResult.messages[3]).toHaveProperty('timeOfSending');
     })
     test('201: Acknowledges successful post request when there is an unnecessary property', () => { 
+        const timeOfSending = { $timestamp: { t: 1697633948, i: 0 }}
         return request(app)
         .post('/api/chats/650a7f8c1f1e6c8b49e9e833/messages')
-        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed', timeOfSending: { $timestamp: { t: 1697633948, i: 0 }}})
+        .send({_id: '65086dc0de189d61e4f9c1c9', senderName: 'James Bookish', messageContent: 'I really enjoyed Submarine.', unnecessary: 'This property is not needed', timeOfSending})
         .expect(201)
         .then(({body }) => {
            expect(body.result.acknowledged).toBe(true)
@@ -362,6 +364,7 @@ describe('POST /api/chats', () => {
                 expect(typeof nameObj.chatName).toBe('string')
                 expect(typeof nameObj.timeOfCreation).toBe('object')
                 expect(typeof nameObj._id).toBe('string');
+                expect(typeof nameObj.chatCreator).toBe('string');
             })
         })
     })
